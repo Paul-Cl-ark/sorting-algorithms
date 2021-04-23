@@ -11,13 +11,17 @@ def get_max_digit_count(arr):
 
 def radix_sort(arr):
   for i in range(get_max_digit_count(arr)):
-    value_bucket = [[] for digit_bucket in range(0, 10)]
+    pos_value_bucket = [[] for digit_bucket in range(0, 10)]
+    neg_value_bucket = [[] for digit_bucket in range(0, 10)]
 
     for j in arr:
-      value_bucket[get_digit(j, i)].append(j)
+      if j < 0: neg_value_bucket[abs(get_digit(j, i) - 9)].append(j)
+      else: pos_value_bucket[get_digit(j, i)].append(j)
     
-    arr = [value for inner_arr in value_bucket for value in inner_arr]
-
+    neg_arr = [value for inner_arr in neg_value_bucket for value in inner_arr]
+    pos_arr =  [value for inner_arr in pos_value_bucket for value in inner_arr]
+    arr = neg_arr + pos_arr
+  
   return arr
 
 # print(get_digit(12345, 6))
@@ -25,4 +29,4 @@ def radix_sort(arr):
 # print(get_max_digit_count([1, 2, 3, 400, 5000, 71234, -1, -123456]))
 
 # print(radix_sort([0, 2, 99, 12, 200, 430, 49, 1, 1239012, 31, 63, 54, 21, 12039]))
-print(radix_sort([23,345,5467,12,-2345,9852]))
+print(radix_sort([-193, 23, 345, 5467, 12, -2345, 9852,-12]))
